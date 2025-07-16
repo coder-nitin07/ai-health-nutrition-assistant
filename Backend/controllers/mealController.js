@@ -48,4 +48,46 @@ const getAllLogs = async (req, res)=>{
     }
 };
 
-module.exports = { mealLog, getAllLogs };
+// Edit log API
+const editLog = async (req, res)=>{
+    try {
+        const userId = req.user.id;
+        const { id } = req.params;
+
+        const log = await MealLog.findOne({ _id: id, user: userId });
+        if(!log){
+            return res.status(404).json({ message: 'Log not found or unauthorized' });
+        }
+
+        const latestLog = await MealLog.findOne({ user: userId }).sort({ createdAt: -1 });
+        if (!latestLog || latestLog._id.toString() !== id) {
+            return res.status(403).json({ message: 'Only the most recent log can be edited.' });
+        }
+
+        // Check: Is it within 24 hours?
+        const createdAt = new Date(log.createdAt);
+        const now = new Date();
+        const hourPassed = (now - createdAt) / (1000 * 60 * 60); // convert the MS to hours
+
+        if(hourPassed > 24){
+            return res.status(403).json({ message: 'Edit window expired (24 hours).' });
+        }
+
+        if(log.edited){
+            return res.status(403).json({ message: 'You can only edit once.' });
+        }
+
+        const updatedData = req.body;
+        const updatedLog = await MealLog.findByIdAndUpdate(id, {
+            ...updatedData,
+            edited: true
+        },{ new: true });
+
+        res.status(200).json({ message: 'Log updated successfully.', log: updatedLog });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Something went wrong.' })
+    }
+};
+
+module.exports = { mealLog, getAllLogs, editLog };

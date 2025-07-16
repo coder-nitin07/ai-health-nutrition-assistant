@@ -28,6 +28,7 @@ const analyzeHealth = async (req, res)=>{
     }
 };
 
+// Suggest Exercise API
 const suggestExercise = async (req, res)=>{
     try {
         const userId = req.user.id;
