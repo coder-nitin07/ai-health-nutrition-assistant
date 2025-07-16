@@ -1,10 +1,17 @@
 const express = require('express');
 const db = require('./config/db');
+const authRouter = require('./routes/authRoutes');
 const app = express();
 require('dotenv').config();
 
 // DB Connection 
 db();
+
+// json
+app.use(express.json());
+
+// routes
+app.use('/auth', authRouter);
 
 app.get('/', (req, res)=>{
     res.send('AI Health and Nutrition Assistant Project');
