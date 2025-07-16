@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('./config/db');
 const authRouter = require('./routes/authRoutes');
+const mealRouter = require('./routes/mealRoutes');
 const app = express();
 require('dotenv').config();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 // routes
 app.use('/auth', authRouter);
+app.use('/meal', mealRouter);
 
 app.get('/', (req, res)=>{
     res.send('AI Health and Nutrition Assistant Project');
