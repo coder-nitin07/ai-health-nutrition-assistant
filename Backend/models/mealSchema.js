@@ -41,6 +41,10 @@ const mealSchema = mongoose.Schema({
     activityLevel: {
         type: String,
         enum: ['Sedentary', 'Moderate', 'Active']
+    },
+    edited: {
+        type: Boolean,
+        default: false
     }
 }, { timestamps: true });
 
