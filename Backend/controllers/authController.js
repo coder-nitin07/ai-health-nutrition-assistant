@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
 const User = require("../models/authSchema");
 
 // Register User
@@ -21,10 +23,16 @@ const createUser = async (req, res)=>{
             password: hashPassword
         });
 
+        const token = jwt.sign(
+            { id: newUser._id },
+            process.env.SECRET_KEY,
+            { expiresIn: '1h' }
+        );
+
         const user = newUser.toObject();
         delete user.password;
 
-        res.status(201).json({ message: 'User Register Successfully', user: user });
+        res.status(201).json({ message: 'User Register Successfully', user: user, token });
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Something went wrong' });
