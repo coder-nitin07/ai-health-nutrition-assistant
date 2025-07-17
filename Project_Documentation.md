@@ -49,20 +49,27 @@
     
 
 
-    ## Frontend Flow (Newly Added Concept)
+    ## Frontend Flow (Updated Concept)
         - After login → /home:
             - Welcome message
-            - Some details about the project on the Home Page like ABout the AI details
+            - Some details about the project and the AI's role
             - Button: "Start Health Check"
 
+        - On clicking → /analyzer:
+            - A step-by-step form-based UI appears
+                - Step 1: Select times of day (e.g., Morning, Afternoon, Night)
+                - Step 2: For each selected time, enter what you ate
+                - Step 3: Select your Water Intake (e.g., <1L, 1–2L, etc.)
+                - Step 4: Select your Caffeine intake (None, 1 cup, etc.)
+                - Step 5: Alcohol consumption (Yes/No)
+                - Step 6: Sleep hours (input number)
+                - Step 7: Activity Level (Sedentary, Moderate, Active)
 
-        - On clicking → /analyzer
-            - AI starts asking questions:
-                - What you ate (morning, afternoon, etc.)
-                - Water/Caffeine/Alcohol/Sleep/Activity level
-    
-    
-        - Once completed → AI generates full report
+            - After all steps are filled → Button: "Get Today's Report"
+                - Sends data to backend AI endpoint
+                - AI returns health summary + suggestions
+
+        - Display the AI report to the user in a clean readable format
 
 
 ## Tech Stack
