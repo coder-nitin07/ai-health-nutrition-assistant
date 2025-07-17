@@ -161,4 +161,46 @@ const getTodayLog = async (req, res)=>{
     }
 };
 
-module.exports = { mealLog, getAllLogs, editLog, deleteLog, getTodayLog };
+// Get Streak
+const getStreak = async (req, res)=>{
+    try {
+        const userId = req.user.id;
+
+        const userExist = await User.findById(userId);
+        if(!userExist){
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const logs = await MealLog.find({ user: userId }).sort({ createdAt: 1 });
+        if(!logs.length){
+            return res.status(200).json({ streak: 0 });
+        }
+
+        const logDates = logs.map(log => log.createdAt.toString().split('T')[0]);
+
+        const uniqueDates = [ ...new Set(logDates) ];
+
+        let streak = 0;
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        for(let i= uniqueDates.length - 1; i >=0; i--){
+            const logDate = new Date(uniqueDates[i]);
+            const diffInDays = Math.floor((today - logDate) / (1000 * 60 * 60 * 24));
+
+            if (diffInDays === 0 || diffInDays === currentStreak) {
+                streak++;
+                today.setDate(today.getDate() - 1);
+            } else {
+                break;
+            }
+        }
+
+        return res.status(200).json({ streak });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+};
+
+module.exports = { mealLog, getAllLogs, editLog, deleteLog, getTodayLog, getStreak };
