@@ -90,4 +90,28 @@ const editLog = async (req, res)=>{
     }
 };
 
-module.exports = { mealLog, getAllLogs, editLog };
+// Delete API
+const deleteLog = async (req, res)=>{
+    try {
+        const userId = req.user.id;
+        const logId = req.params.id;
+
+        const log = await MealLog.findById(logId);
+        if(!logId){
+            return res.status(404).json({ message: "Log not found." });
+        }
+
+        if(log.user.toString() !== userId){
+            return res.status(403).json({ message: "Unauthorized to delete this log." });
+        }
+
+        await MealLog.findByIdAndDelete(logId);
+
+        res.status(200).json({ message: "Log deleted successfully." });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+};
+
+module.exports = { mealLog, getAllLogs, editLog, deleteLog };
