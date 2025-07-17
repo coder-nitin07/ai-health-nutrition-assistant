@@ -33,15 +33,32 @@ const mealLog = async (req, res)=>{
 const getAllLogs = async (req, res)=>{
     try {
         const userId = req.user.id;
-        const getUser = await User.findById( userId );
+        const page = parseInt(req.query.page) || 1;
+        const limit = 10;
+        const skip = (page -1) * limit;
 
-        if(!getUser){
+        const userExist = await User.findById( userId );
+        if(!userExist){
             return res.status(404).json({ message: 'User not found.' });
         }
 
-        const getLogs = await MealLog.find({ user: userId }).sort({ createdAt: -1 });
+        const totalLogs = await MealLog.countDocuments({ user: userId });
 
-        res.status(200).json({ message: 'Successfully Fetched All Logs', logs: getLogs });
+        const getLogs = await MealLog.find({ user: userId })
+                                            .sort({ createdAt: -1 })
+                                            .skip(skip)
+                                            .limit(limit);
+
+        res.status(200).json({ 
+            message: 'Successfully Fetched All Logs', 
+            logs: getLogs,
+            pagination: {
+                total: totalLogs,
+                page,
+                limit,
+                totalPages: Math.ceil(totalLogs / limit)
+            }
+        });
     } catch (err) { 
         console.log(err);
         res.status(500).json({ message: 'Something went wrong' });
