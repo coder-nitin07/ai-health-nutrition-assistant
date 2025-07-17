@@ -114,4 +114,34 @@ const deleteLog = async (req, res)=>{
     }
 };
 
-module.exports = { mealLog, getAllLogs, editLog, deleteLog };
+// Get Today Log
+const getTodayLog = async (req, res)=>{
+    try {
+        const userId = req.user.id;
+
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+
+        const endOfDay = new Date();
+        endOfDay.setHours(23, 59, 59, 999);
+
+        const todayLog = await MealLog.findOne({
+            user: userId,
+            createdAt: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        });
+
+        if(!todayLog){
+            return res.status(404).json({ message: "No log found for today." });
+        }
+
+        res.status(200).json({ message: "Today's log fetched successfully.", log: todayLog });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Something went wrong' });
+    }
+};
+
+module.exports = { mealLog, getAllLogs, editLog, deleteLog, getTodayLog };
