@@ -23,7 +23,7 @@ const steps = [
 
 const HowItWorksSection = ()=>{
     return (
-        <section className="bg-[#0F0F0F] text-[#F0F0F0] px-6 md:px-16 py-20">
+        <section className="bg-[#0F0F0F] text-[#F0F0F0] px-6 md:px-16 py-20" id="docs">
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
 
 
