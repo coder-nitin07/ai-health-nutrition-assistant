@@ -130,3 +130,102 @@
 | **Sleep + Activity**  | "6.5 hours of sleep is slightly low. Try to reach 7–8 hours."                       |
 | **Recommendations**   | "Avoid soda. Include fruits. Try a light dinner. Exercise: 20-min walk."            |
 | **Suggested Diet**    | "Tomorrow: oats + banana, dal-chawal, grilled veggies, lemon water."                |
+
+
+
+| Page              | Route       | Login Required? | Notes                                        |
+| ----------------- | ----------- | --------------- | -------------------------------------------- |
+| **Home Page**     | `/`         | ✅ Yes           | Show user streak, "Get Started" button, etc. |
+| **Generate Page** | `/generate` | ✅ Yes           | Ask questions only after login               |
+| **Summary Page**  | `/summary`  | ✅ Yes           | Show AI output for the logged-in user        |
+| **Login Page**    | `/login`    | ❌ No            | Open to all                                  |
+| **Signup Page**   | `/signup`   | ❌ No            | Open to all                                  |
+| **404 Page**      | `*`         | ❌ No            | Open to all                                  |
+
+
+
+
+|--------------------------------------------------|
+|                    Navbar                        |
+|     Logo          |    "About"  "Docs"  [Login]  |
+|--------------------------------------------------|
+
+|                                                  |
+|     💡 Big Heading: "Generate AI Web Pages"      |
+|     📄 Small Subheading: "Answer a few Qs, done!"|
+|                                                  |
+|     🔥 Your Streak: 4-day streak! (👤 John)        | ← if logged in
+|                                                  |
+|     [ Get Started ] ← CTA button                 |
+|                                                  |
+|     🔍 Preview Screenshot / Sample Output        |
+|                                                  |
+|     Footer: GitHub | Privacy | Contact           |
+|--------------------------------------------------|
+
+
+
+
+
+
+
+
+
+| Element               | Recommended Color           | Notes                                                          |
+| --------------------- | --------------------------- | -------------------------------------------------------------- |
+| **Background**        | `#0F0F0F` or `#121212`      | Deep dark gray, not pure black (for less strain & smoother UI) |
+| **Primary Text**      | `#F0F0F0` or `#FFFFFF`      | Light gray or white for readability                            |
+| **Secondary Text**    | `#B0B0B0` or `#9E9E9E`      | Muted gray for sublabels, descriptions                         |
+| **Primary Accent**    | `#00C896` (Mint Green)      | Fresh, health-focused, energetic                               |
+| **CTA Buttons**       | `#00E0A1` hover → `#00C896` | Call to action stands out clearly                              |
+| **Warning/Alert**     | `#FF6B6B` or `#FF4C4C`      | For errors, alerts                                             |
+| **Input Fields BG**   | `#1E1E1E`                   | Soft dark background for inputs                                |
+| **Borders/Dividers**  | `#2C2C2C`                   | Thin lines or outlines for separation                          |
+| **Success Highlight** | `#32CD80` or `#3FE094`      | For success messages or highlights                             |
+
+
+| Purpose             | Color       | Hex Code  | Emotion/Message               |
+| ------------------- | ----------- | --------- | ----------------------------- |
+| AI / Technology     | Indigo Blue | `#3F51B5` | Intelligent, trustworthy      |
+| Health & Freshness  | Mint Green  | `#00C896` | Clean, fresh, healthy         |
+| Wellness / Calmness | Teal        | `#009688` | Calm, balance, wellness       |
+| Highlight / CTA     | Aqua        | `#00FFF7` | Bright, energetic, futuristic |
+
+
+Font Family: Inter, Poppins, or Roboto (clean & readable)
+Shadow: Use subtle green/blue glow on hover or focus
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+| 📄 Page            | 🧠 Animation Idea(s)                                       | 🛠 Tool           |
+| ------------------ | ---------------------------------------------------------- | ----------------- |
+| **Login / Signup** | Slide-in form on load, glowing input focus, shake on error | Tailwind + Framer |
+| **Home Page**      | Fade-in Hero, typewriter text, bouncing CTA                | Framer Motion     |
+| **Generate Page**  | Each question enters with slide/fade, progress bar fills   | Framer + Tailwind |
+| **Summary Page**   | AI content fades/zooms in, copy button scales on hover     | Framer Motion     |
+| **404 Page**       | Lottie animation (lost character), fade-in message + CTA   | Lottie            |
+| **Global Nav**     | Smooth hover underline or scale effects                    | Tailwind          |
+
+| Step | Page                      | Features to Add                                                                                           | Notes                             |
+| ---- | ------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| 1    | **Login**                 | - Email/password fields <br> - Submit button <br> - JWT auth <br> - Animation on login button             | Protected Routes setup after this |
+| 2    | **Signup**                | - Name/email/password <br> - Confirm password <br> - Animations                                           | Redirect to login on success      |
+| 3    | **Home**                  | - Welcome message <br> - CTA to generate questions <br> - Smooth page load animation                      | Protected                         |
+| 4    | **Generate**              | - Question form <br> - Input fields <br> - Loading animation when submitting                              | Protected                         |
+| 5    | **Summary**               | - Display generated summary <br> - Reveal animation <br> - Copy/share buttons                             | Protected                         |
+| 6    | **404 Page**              | - “Page Not Found” message <br> - Cute animation or icon <br> - Back to Home link                         | Accessible for all                |
+| 7    | **Loading + Transitions** | Add Framer Motion transitions between pages <br> Add Lottie or CSS loading spinner for generate → summary | Optional but adds polish          |
+| 8    | **Responsive**            | Add responsiveness **after each section** is built                                                        | Not left to the very end          |
