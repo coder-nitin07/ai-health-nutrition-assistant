@@ -55,7 +55,7 @@ const Login = () => {
             <Lottie
               animationData={fitnessAnimation}
               loop={true}
-              className="w-[50%] mx-auto mb-6"
+              className="w-[60%] mx-auto mb-1"
             />
 
             <h1 className='text-3xl  font-semibold mb-4'>Welcome Back!</h1>
