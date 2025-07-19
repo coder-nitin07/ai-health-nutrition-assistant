@@ -162,38 +162,51 @@ const getTodayLog = async (req, res)=>{
 };
 
 // Get Streak
-const getStreak = async (req, res)=>{
+const getStreak = async (req, res) => {
     try {
         const userId = req.user.id;
 
         const userExist = await User.findById(userId);
-        if(!userExist){
+        if (!userExist) {
             return res.status(404).json({ message: 'User not found' });
         }
 
         const logs = await MealLog.find({ user: userId }).sort({ createdAt: 1 });
-        if(!logs.length){
+        if (!logs.length) {
             return res.status(200).json({ streak: 0 });
         }
 
-        const logDates = logs.map(log => log.createdAt.toString().split('T')[0]);
+        const logDates = logs.map(log => {
+            const date = new Date(log.createdAt);
+            date.setHours(0, 0, 0, 0); // normalize time
+            return date.toISOString().split("T")[0]; // keep YYYY-MM-DD format
+        });
 
-        const uniqueDates = [ ...new Set(logDates) ];
+        const uniqueDates = [...new Set(logDates)];
 
         let streak = 0;
         let today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        for(let i= uniqueDates.length - 1; i >=0; i--){
+        // Check for consecutive days starting from today
+        for (let i = uniqueDates.length - 1; i >= 0; i--) {
             const logDate = new Date(uniqueDates[i]);
+            logDate.setHours(0, 0, 0, 0);
+
             const diffInDays = Math.floor((today - logDate) / (1000 * 60 * 60 * 24));
 
-            if (diffInDays === 0 || diffInDays === currentStreak) {
+            if (diffInDays === 0) {
+                // logged today
                 streak++;
-                today.setDate(today.getDate() - 1);
+            } else if (diffInDays === 1) {
+                // logged yesterday
+                streak++;
+                today.setDate(today.getDate() - 1); // move to previous day
             } else {
-                break;
+                break; // streak broken
             }
+
+            today.setDate(today.getDate() - 1); // move to previous day
         }
 
         return res.status(200).json({ streak });
