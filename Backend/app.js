@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('./config/db');
+const cors = require('cors');
 const authRouter = require('./routes/authRoutes');
 const mealRouter = require('./routes/mealRoutes');
 const aiRouter = require('./routes/aiRoutes');
@@ -8,6 +9,12 @@ require('dotenv').config();
 
 // DB Connection 
 db();
+
+// cors 
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true              
+}));
 
 // json
 app.use(express.json());
