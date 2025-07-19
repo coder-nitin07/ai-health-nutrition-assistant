@@ -1,8 +1,12 @@
+import { BrowserRouter } from 'react-router-dom'
 import './App.css'
+import AppRoutes from './routes/AppRoutes'
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold text-blue-900">Tailwind is working!</h1>
+    <BrowserRouter>
+        <AppRoutes />
+    </BrowserRouter>
   )
 }
 
