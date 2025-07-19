@@ -178,8 +178,8 @@ const getStreak = async (req, res) => {
 
         const logDates = logs.map(log => {
             const date = new Date(log.createdAt);
-            date.setHours(0, 0, 0, 0); // normalize time
-            return date.toISOString().split("T")[0]; // keep YYYY-MM-DD format
+            date.setHours(0, 0, 0, 0);
+            return date.toISOString().split("T")[0];
         });
 
         const uniqueDates = [...new Set(logDates)];
@@ -201,9 +201,9 @@ const getStreak = async (req, res) => {
             } else if (diffInDays === 1) {
                 // logged yesterday
                 streak++;
-                today.setDate(today.getDate() - 1); // move to previous day
+                today.setDate(today.getDate() - 1);
             } else {
-                break; // streak broken
+                break;
             }
 
             today.setDate(today.getDate() - 1); // move to previous day
