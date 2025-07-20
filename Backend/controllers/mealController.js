@@ -10,6 +10,25 @@ const mealLog = async (req, res)=>{
             return res.status(404).json({ message: 'Please filled all the required fields' });
         }
 
+        // Get start and end of the Day
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
+
+        const endOfToday= new Date();
+        endOfToday.setHours(23, 59, 59, 999);
+
+        const alreadyLogged = await MealLog.findOne({
+            user: req.user.id,
+            createdAt: {
+                $gte: startOfToday,
+                $lte: endOfToday
+            }
+        });
+
+        if(alreadyLogged){
+            return res.status(403).json({ message: 'You have already logged today.' });
+        }
+
         const takeData = await MealLog.create({
             user: req.user.id,
             timesOfDay,
