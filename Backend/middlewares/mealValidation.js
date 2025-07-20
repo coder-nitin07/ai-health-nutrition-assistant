@@ -12,7 +12,12 @@ const mealSchema = joi.object({
     waterIntake: joi.string().valid('<1L', '1–2L', '2–3L', '3–4L', '4+L').required(),
     caffeine: joi.string().valid('None', '1 cup', '2 cups', '3+ cups').required(),
     alcohol: joi.string().valid('Yes', 'No').required(),
-    sleepHours: joi.number().required(),
+    sleepHours: joi.string().valid(
+        'Less than 4 hours',
+        '4–6 hours',
+        '6–8 hours',
+        'More than 8 hours'
+    ).required(),
     activityLevel: joi.string()
         .valid('Sedentary', 'Moderate', 'Active')
         .required()

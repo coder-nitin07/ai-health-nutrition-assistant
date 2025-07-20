@@ -35,7 +35,8 @@ const mealSchema = mongoose.Schema({
         required: true
     },
     sleepHours: {
-        type: Number,
+        type: String,
+        enum: [ 'Less than 4 hours', '4-6 hours', '6-8 hours', 'More than 8 hours' ],
         required: true
     },
     activityLevel: {
