@@ -136,7 +136,10 @@ const generateFullHealthReport = async (logs) => {
 
         const formattedPrompt = formatPromptFromLogs(logs);
         const analysisPrompt = formattedPrompt;
-        const suggestionPrompt = `Based on the following user's logs, suggest:\n...`;
+        const suggestionPrompt = `${formattedPrompt}
+
+Now, only extract 3 simple, actionable suggestions for the user to improve their health tomorrow. Be friendly and clear. Don’t repeat the log — just show suggestions.
+`;
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
