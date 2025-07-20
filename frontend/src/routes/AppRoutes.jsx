@@ -5,16 +5,34 @@ import Home from '../pages/Home';
 import Generate from '../pages/Generate';
 import Summary from '../pages/Summary';
 import NotFound from '../pages/NotFound';
+import Protectedoutes from '../components/ProtectedRoute';
 
 const AppRoutes = () => {
   return (
     <Routes>
-         <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path='/login' element={<Login /> } />
         <Route path='/signup' element={<Signup /> } />
-        <Route path='/home' element={<Home /> } />
-        <Route path='/generate' element={<Generate /> } />
-        <Route path='/summary' element={<Summary /> } />
+
+        {/* Protected Routes */}
+        <Route path='/home' element={
+            <Protectedoutes> 
+                  <Home /> 
+            </Protectedoutes>
+        } />
+
+        <Route path='/generate' element={
+            <Protectedoutes>
+                  <Generate /> 
+            </Protectedoutes>
+        } />
+
+        <Route path='/summary' element={
+            <Protectedoutes>
+                  <Summary /> 
+            </Protectedoutes>
+          } />
+          
         <Route path='*' element={<NotFound /> } />
     </Routes>
   )
