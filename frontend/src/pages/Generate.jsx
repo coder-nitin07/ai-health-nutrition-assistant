@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Navbar from '../components/Navbar'
 import StreakBanner from '../components/Generate/StreakBanner'
@@ -9,9 +10,16 @@ const Generate = () => {
   const [isStarted, setIsStarted] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
 
   const handleStart = () => setIsStarted(true);
-  const handleNext = () => setCurrentStep((prev) => prev + 1);
+  const handleNext = () => {
+    if (currentStep === 5) {  // ✅ Last step index = 5
+      navigate("/summary", { state: { formData } }); // ✅ wrap formData in object
+    } else {
+      setCurrentStep(prev => prev + 1);
+    }
+  };  
 
   return (
     <div className="flex flex-col min-h-screen bg-[#0F0F0F] text-[#F0F0F0] overflow-y-auto">
@@ -49,6 +57,7 @@ const Generate = () => {
                           setCurrentStep = { setCurrentStep }
                           formData={formData}              // ✅ Pass down
                 setFormData={setFormData}        // ✅ Pass down
+                handleNext={handleNext}
                       />
                   </motion.div>
               )}

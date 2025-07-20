@@ -1,10 +1,12 @@
+import StepFive from './steps/StepFive';
 import StepFour from './steps/StepFour';
 import StepOne from './steps/StepOne';
+import StepSix from './steps/StepSix';
 import StepThree from './steps/StepThree';
 import StepTwo from './steps/StepTwo'; // (You’ll create this next)
 
-const QuestionStep = ({ currentStep, setCurrentStep, formData, setFormData }) => {
-   const handleNext = () => setCurrentStep((prev) => prev + 1);
+const QuestionStep = ({ currentStep, setCurrentStep, formData, setFormData, handleNext }) => {
+   
 
    switch (currentStep) {
     case 0:
@@ -15,6 +17,10 @@ const QuestionStep = ({ currentStep, setCurrentStep, formData, setFormData }) =>
       return <StepThree formData={formData} setFormData={setFormData} handleNext={handleNext} />;
     case 3:
       return <StepFour formData={formData} setFormData={setFormData} handleNext={handleNext} />;
+    case 4:
+      return <StepFive formData={formData} setFormData={setFormData} handleNext={handleNext} />;
+    case 5:
+      return <StepSix formData={formData} setFormData={setFormData} handleNext={handleNext} />;
     default:
       return <div>🎉 All done!</div>;
   }
