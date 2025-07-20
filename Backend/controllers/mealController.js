@@ -4,9 +4,9 @@ const MealLog = require("../models/mealSchema");
 // Meal Data
 const mealLog = async (req, res)=>{
     try {
-        const { timesOfDay, items, quantity, waterIntake, caffeine, alcohol, sleepHours, activityLevel } = req.body;
+        const { meals, waterIntake, caffeine, alcohol, sleepHours, activityLevel } = req.body;
 
-        if(!timesOfDay, !items, !quantity, !waterIntake, !sleepHours){
+        if(!meals, !waterIntake, !sleepHours){
             return res.status(404).json({ message: 'Please filled all the required fields' });
         }
 
@@ -31,9 +31,7 @@ const mealLog = async (req, res)=>{
 
         const takeData = await MealLog.create({
             user: req.user.id,
-            timesOfDay,
-            items,
-            quantity,
+            meals,
             waterIntake,
             caffeine,
             alcohol,

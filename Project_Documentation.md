@@ -229,3 +229,20 @@ Shadow: Use subtle green/blue glow on hover or focus
 | 6    | **404 Page**              | - “Page Not Found” message <br> - Cute animation or icon <br> - Back to Home link                         | Accessible for all                |
 | 7    | **Loading + Transitions** | Add Framer Motion transitions between pages <br> Add Lottie or CSS loading spinner for generate → summary | Optional but adds polish          |
 | 8    | **Responsive**            | Add responsiveness **after each section** is built                                                        | Not left to the very end          |
+
+
+
+
+
+
+
+
+quesions -
+| Step | Question Prompt                  | Schema Field                  | Input Type           |
+| ---- | -------------------------------- | ----------------------------- | -------------------- |
+| 1    | What did you eat today and when? | `items`, `timesOfDay`         | Multi-select + Input |
+| 2    | How much water?                  | `waterIntake`                 | Single-select        |
+| 3    | Tea/Coffee intake                | `caffeine`                    | Single-select        |
+| 4    | Alcohol today?                   | `alcohol`                     | Yes/No               |
+| 5    | Sleep hours?                     | `sleepHours` (update to enum) | Single-select        |
+| 6    | Activity level?                  | `activityLevel`               | Single-select        |

@@ -6,19 +6,19 @@ const mealSchema = mongoose.Schema({
         ref: 'User',
         required: true
     },
-    timesOfDay: {
-        type: [String],
-        enum: [ 'morning', 'afternoon', 'evening', 'night', 'snacks' ],
-        required: true
-    },
-    items: {
-        type: String,
-        required: true
-    },
-    quantity: {
-        type: String,
-        required: true
-    },
+    "meals": [
+        {
+            timesOfDay: {
+                type: String,
+                enum: [ 'morning', 'afternoon', 'evening', 'night', 'snacks' ],
+                required: true
+            },
+            items: {
+                type: String,
+                required: true
+            },
+        }
+    ],
     waterIntake: {
         type: String,
         enum: ['<1L', '1–2L', '2–3L', '3–4L', '4+L'],
