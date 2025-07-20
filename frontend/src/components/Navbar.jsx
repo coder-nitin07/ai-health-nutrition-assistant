@@ -65,7 +65,7 @@ const Navbar = () => {
             className="fixed top-0 left-0 w-full z-50 bg-[#0F0F0F]"
         >
             <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
-                
+
                 {/* Logo */}
                 <div className="text-2xl font-bold text-[#00C896]">NutriAI</div>
 
@@ -93,7 +93,7 @@ const Navbar = () => {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full right-4 mt-2 w-48 bg-[#121212] text-[#F0F0F0] rounded-lg shadow-lg py-4 px-6 flex flex-col space-y-3 md:hidden"
+                    className="absolute top-full right-4  w-48 bg-[#121212] text-[#F0F0F0] rounded-lg shadow-lg py-4 px-6 flex flex-col space-y-3 md:hidden"
                 >
                     <a href="#about" onClick={toggleMenu} className="hover:text-[#00C896] transition">About</a>
                     <a href="#docs" onClick={toggleMenu} className="hover:text-[#00C896] transition">Docs</a>
