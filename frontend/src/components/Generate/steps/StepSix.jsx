@@ -1,21 +1,51 @@
 import { motion } from "framer-motion";
+import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
+import { useState } from "react";
 
 const StepSix = ({ formData = {}, setFormData, handleNext }) => {
     const options = ['Sedentary', 'Moderate', 'Active'];
+    const [finalReport, setFinalReport] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-    const handleSelect = (option) =>{
+    const handleSelect = (option) => {
         setFormData(prev => ({ ...prev, activityLevel: option }));
     };
 
-    const handleSubmit = () => {
-        if (formData.activityLevel) {
-            handleNext();
+    const handleSubmit = async () => {
+        try {
+            setLoading(true);
+            setError("");
+            setFinalReport(null);
+
+            const token = localStorage.getItem("token");
+
+            console.log("Submitting form data:", formData);
+
+            const res = await axios.post(
+                "http://localhost:3000/meal/meal-log", // ✅ your actual endpoint
+                formData,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            const aiResponse = res.data.aiResponse || "No AI response found.";
+            setFinalReport(aiResponse);
+            localStorage.setItem("finalReport", JSON.stringify(aiResponse));
+            handleNext(); 
+        } catch (err) {
+            console.error("Submit error:", err);
+            setError("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <motion.div
-            key="step-five"
+            key="step-six"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -30 }}
@@ -27,38 +57,60 @@ const StepSix = ({ formData = {}, setFormData, handleNext }) => {
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                { options.map(option =>(
+                {options.map(option => (
                     <button
-                        key={ option }
-                        onClick={ ()=> handleSelect(option) }
-                        className={`px-4 py-2 rounded-xl border text-white transition-all
-                            ${
-                                formData.activityLevel === option
+                        key={option}
+                        onClick={() => handleSelect(option)}
+                        className={`px-4 py-2 rounded-xl border text-white transition-all ${
+                            formData.activityLevel === option
                                 ? "bg-[#00E0A1] border-[#00E0A1] text-black"
                                 : "bg-[#111] border-gray-600 hover:border-[#00E0A1]"
-                            }`
-                        }
+                        }`}
                     >
-                        { option }
+                        {option}
                     </button>
                 ))}
             </div>
 
             <button
-                onClick = { handleSubmit }
-                disabled = { !formData.activityLevel }
-                className={`w-full py-3 rounded-xl font-semibold transition-colors
-                    ${
-                        formData.activityLevel
+                onClick={handleSubmit}
+                disabled={!formData.activityLevel || loading}
+                className={`w-full py-3 rounded-xl font-semibold transition-colors ${
+                    formData.activityLevel
                         ? "bg-[#00E0A1] hover:bg-[#00C896] text-black"
                         : "bg-gray-700 text-gray-400 cursor-not-allowed"
-                    }`
-                }
-            >   
-                Submit
+                }`}
+            >
+                {loading ? "Submitting..." : "Submit"}
             </button>
+
+            { finalReport && (
+                <div className="mt-8 p-6 bg-[#222] border border-[#00E0A1] rounded-xl text-white">
+                    <h3 className="text-xl font-bold mb-4 text-[#00E0A1]">Your Health Summary</h3>
+                    <div className="whitespace-pre-line leading-relaxed">
+                        <ReactMarkdown
+    components={{
+        p: ({ children }) => <p className="text-white mb-2">{children}</p>,
+    }}
+>
+    {finalReport.analysis}
+</ReactMarkdown>
+
+<ReactMarkdown
+    components={{
+        p: ({ children }) => <p className="text-[#00E0A1] mt-4">{children}</p>,
+    }}
+>
+    {finalReport.suggestions}
+</ReactMarkdown>
+
+                    </div>
+                </div>
+            )}
+
+            {error && <p className="text-red-500 mt-4">{error}</p>}
         </motion.div>
-    )
+    );
 };
 
 export default StepSix;

@@ -1,42 +1,43 @@
-import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import ReactMarkdown from "react-markdown";
 
 const Summary = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [ feedBack, setFeedBack ] = useState('');
-  const formData = location.state?.formData;
+    const [finalReport, setFinalReport] = useState(null);
 
-  useEffect(()=>{
-    if(!formData) return navigate('/generate');
-
-    const fetchAIResponse = async ()=>{
-        try {
-          const res = await axios.post("http://localhost:3000/ai/generateFullHealthReport", formData);
-          setFeedBack(res.data.summary);
-        } catch (err) {
-          setFeedBack("⚠️ Failed to generate AI feedback. Please try again.", err);
+    useEffect(() => {
+        const storedReport = localStorage.getItem("finalReport");
+        if (storedReport) {
+            setFinalReport(JSON.parse(storedReport));
         }
-    };
+    }, []);
 
-    fetchAIResponse();
-  }, [ formData ]);
+    return (
+        <div className="p-6 max-w-3xl mx-auto mt-10 bg-[#1a1a1a] text-white rounded-2xl shadow-lg">
+            <h2 className="text-2xl font-bold text-[#00E0A1] mb-4">Your AI Health Summary</h2>
+            {finalReport ? (
+                <div className="leading-relaxed whitespace-pre-line">
+                    <ReactMarkdown
+    components={{
+        p: ({ children }) => <p className="mb-6 text-white">{children}</p>,
+    }}
+>
+    {finalReport.analysis}
+</ReactMarkdown>
 
-  if(!formData) return null;
+<ReactMarkdown
+    components={{
+        p: ({ children }) => <p className="text-[#00E0A1]">{children}</p>,
+    }}
+>
+    {finalReport.suggestions}
+</ReactMarkdown>
 
-  return (
-    <div className="min-h-screen bg-[#0F0F0F] text-[#F0F0F0] px-6 py-10">
-        <h1 className="text-3xl font-semibold mb-6">Your Health Summary</h1>
-        <div className="bg-[#1A1A1A] rounded-2xl p-6 shadow-lg">
-          { feedBack ? (
-            <p className="whitespace-pre-line text-lg">{ feedBack }</p>
-          ) : (
-            <p className="animate-pulse">Generating your personalized health analysis...</p>
-          )}
+                </div>
+            ) : (
+                <p className="text-gray-400">No summary available. Please complete the assessment first.</p>
+            )}
         </div>
-    </div>
-  );
-}
+    );
+};
 
 export default Summary;

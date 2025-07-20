@@ -134,7 +134,8 @@ const generateFullHealthReport = async (logs) => {
             return { error: "No recent logs found." };
         }
 
-        const analysisPrompt = formatPromptFromLogs(logs);
+        const formattedPrompt = formatPromptFromLogs(logs);
+        const analysisPrompt = formattedPrompt;
         const suggestionPrompt = `Based on the following user's logs, suggest:\n...`;
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
