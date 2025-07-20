@@ -46,7 +46,9 @@ const mealSchema = mongoose.Schema({
     edited: {
         type: Boolean,
         default: false
-    }
+    },
+    analysis: { type: String },
+    suggestions: { type: String }
 }, { timestamps: true });
 
 const MealLog = mongoose.model('MealLog', mealSchema);

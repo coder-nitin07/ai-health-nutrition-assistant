@@ -1,12 +1,14 @@
 const User = require("../models/authSchema");
 const MealLog = require("../models/mealSchema");
+const formatPromptFromLogs = require("../utils/promptFormatter");
+const { generateFullHealthReport } = require("./aiController");
 
 // Meal Data
 const mealLog = async (req, res)=>{
     try {
         const { meals, waterIntake, caffeine, alcohol, sleepHours, activityLevel } = req.body;
 
-        if(!meals, !waterIntake, !sleepHours){
+        if(!meals || !waterIntake || !sleepHours){
             return res.status(404).json({ message: 'Please filled all the required fields' });
         }
 
@@ -29,17 +31,40 @@ const mealLog = async (req, res)=>{
             return res.status(403).json({ message: 'You have already logged today.' });
         }
 
-        const takeData = await MealLog.create({
+        const latestLogs = [
+            {
+                user: req.user.id,
+                meals,
+                waterIntake,
+                caffeine,
+                alcohol,
+                sleepHours,
+                activityLevel,
+                createdAt: new Date() // temporarily mimic a log object
+            }
+        ];
+
+        
+        // ✅ 2. Get AI response using the prepared log
+        const aiResponse = await generateFullHealthReport(latestLogs);
+        if (aiResponse.error) {
+            return res.status(500).json({ message: "AI analysis failed", aiResponse });
+        }
+
+        // ✅ 3. Create log with AI fields
+        const newLog = await MealLog.create({
             user: req.user.id,
             meals,
             waterIntake,
             caffeine,
             alcohol,
             sleepHours,
-            activityLevel
+            activityLevel,
+            analysis: aiResponse.analysis,
+            suggestions: aiResponse.suggestions
         });
 
-        res.status(201).json({ message: 'User data created', data: takeData });
+        res.status(201).json({ message: 'User data created', data: newLog, aiResponse });
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Something went wrong' });
