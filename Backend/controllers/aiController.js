@@ -90,7 +90,15 @@ const generateFullHealthReport = async (req, res)=>{
             suggestionPrompt += `Sleep Hours: ${log.sleepHours}\n`;
             suggestionPrompt += `Water Intake: ${log.waterIntake}\n`;
             suggestionPrompt += `Caffeine: ${log.caffeine}\n`;
-            suggestionPrompt += `Meals: ${log.items}\n`;
+            
+
+             if (log.meals && log.meals.length > 0) {
+                log.meals.forEach((meal, idx) => {
+                    prompt += `Meal ${idx + 1} - Time: ${meal.timesOfDay}, Items: ${meal.items}\n`;
+                });
+            } else {
+                prompt += `Meals: No meals logged\n`;
+            }
         });
 
         suggestionPrompt += `\nPlease make suggestions in a friendly, supportive tone.`;

@@ -4,9 +4,17 @@ function formatPromptFromLogs(logs) {
 
     logs.forEach((log, index) => {
         prompt += `\nLog ${index + 1}:\n`;
-        prompt += `Time of Day: ${log.timesOfDay}\n`;
-        prompt += `Items: ${log.items}\n`;
-        prompt += `Quantity: ${log.quantity}\n`;
+
+        // Meal Summary
+        if (log.meals && log.meals.length > 0) {
+            log.meals.forEach((meal, idx) => {
+                prompt += `Meal ${idx + 1} - Time: ${meal.timesOfDay}, Items: ${meal.items}\n`;
+            });
+        } else {
+            prompt += `Meals: No meals logged\n`;
+        }
+
+        // other health details
         prompt += `Water Intake: ${log.waterIntake}\n`;
         prompt += `Caffeine: ${log.caffeine}\n`;
         prompt += `Alcohol: ${log.alcohol}\n`;
