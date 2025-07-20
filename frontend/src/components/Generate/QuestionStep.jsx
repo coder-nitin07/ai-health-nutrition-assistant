@@ -1,34 +1,17 @@
-import { useState } from "react";
-import StepOne from "./steps/StepOne";
-// later: import StepTwo, StepThree, etc.
+import StepOne from './steps/StepOne';
+import StepTwo from './steps/StepTwo'; // (You’ll create this next)
 
-const QuestionStep = ({ currentStep, setCurrentStep }) => {
-  const [formData, setFormData] = useState({});
+const QuestionStep = ({ currentStep, setCurrentStep, formData, setFormData }) => {
+   const handleNext = () => setCurrentStep((prev) => prev + 1);
 
-  const handleNext = (response) => {
-    const updatedData = { ...formData, ...response };
-    setFormData(updatedData);
-    setCurrentStep(prev => prev + 1);
-  };
-
-  const steps = [
-    <StepOne onNext={handleNext} />,
-    // <StepTwo onNext={handleNext} />,
-    // ...
-  ];
-
-  return (
-    <div className="w-full">
-      {steps[currentStep] || (
-        <div className="text-center py-10">
-          <h2 className="text-2xl font-bold mb-4">✅ All Done!</h2>
-          <pre className="bg-gray-900 text-white text-left text-sm p-4 rounded">
-            {JSON.stringify(formData, null, 2)}
-          </pre>
-        </div>
-      )}
-    </div>
-  );
+   switch (currentStep) {
+    case 0:
+      return <StepOne formData={formData} setFormData={setFormData} handleNext={handleNext} />;
+    case 1:
+      return <StepTwo formData={formData} setFormData={setFormData} handleNext={handleNext} />;
+    default:
+      return <div>🎉 All done!</div>;
+  }
 };
 
 export default QuestionStep;

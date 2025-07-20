@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const timesOptions = ['morning', 'afternoon', 'evening', 'night', 'snacks'];
 
-const StepOne = ({ onNext }) => {
+const StepOne = ({ formData = {}, setFormData, handleNext }) => {
   const [selectedTimes, setSelectedTimes] = useState([]);
   const [mealInputs, setMealInputs] = useState({});
   const [touched, setTouched] = useState({}); // For input touch tracking
@@ -36,14 +36,21 @@ const StepOne = ({ onNext }) => {
 
   const allValid = selectedTimes.length > 0 && selectedTimes.every(time => (mealInputs[time] || "").trim() !== "");
 
-  const handleNext = () => {
-    if (!allValid) return;
-    const meals = selectedTimes.map(time => ({
-      timesOfDay: time,
-      items: mealInputs[time] || ""
-    }));
-    onNext({ meals });
-  };
+  const handleNextClick = () => {
+  if (!allValid) return;
+
+  const meals = selectedTimes.map(time => ({
+    timesOfDay: time,
+    items: mealInputs[time] || ""
+  }));
+
+  setFormData(prev => ({
+    ...prev,
+    meals
+  }));
+
+  handleNext(); // ✅ Now it moves to StepTwo
+};
 
   return (
     <div className="space-y-4">
@@ -87,7 +94,7 @@ const StepOne = ({ onNext }) => {
       </div>
 
       <button
-        onClick={handleNext}
+        onClick={handleNextClick}
         disabled={!allValid}
         className={`mt-6 w-full rounded-lg px-6 py-3 text-sm font-medium transition ${
           allValid

@@ -6,12 +6,12 @@ import QuestionStep from '../components/Generate/QuestionStep'
 import Footer from '../components/Footer'
 
 const Generate = () => {
-  const [ isStarted, setIsStarted ] = useState(false);
-  const [ currentStep, setCurrentStep ] = useState(0);
+  const [isStarted, setIsStarted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({});
 
-  const handleStart = () => {
-    setIsStarted(true);
-  };
+  const handleStart = () => setIsStarted(true);
+  const handleNext = () => setCurrentStep((prev) => prev + 1);
 
   return (
     <div className="flex flex-col min-h-screen bg-[#0F0F0F] text-[#F0F0F0] overflow-y-auto">
@@ -23,7 +23,7 @@ const Generate = () => {
           <AnimatePresence mode="wait">
               { !isStarted && (
                   <motion.div
-                       key="streak"
+                      key="streak"
                       initial={{ opacity: 0, y: 30 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -30 }}
@@ -47,6 +47,8 @@ const Generate = () => {
                       <QuestionStep 
                           currentStep = { currentStep }
                           setCurrentStep = { setCurrentStep }
+                          formData={formData}              // ✅ Pass down
+                setFormData={setFormData}        // ✅ Pass down
                       />
                   </motion.div>
               )}
