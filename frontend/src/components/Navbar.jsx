@@ -1,72 +1,115 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion';
 import { FiMenu, FiX } from "react-icons/fi";
 
 const Navbar = () => {
-    const navigate  = useNavigate();
-    const [ menuOpen, setMenuOpen ] = useState(false);
+    const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
+    const lastScrollY = useRef(0);
 
-    const handleLogout = () =>{
+    const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login');
     };
 
-    const toggleMenu = () =>{
-        setMenuOpen((prev)=> !prev);
+    const toggleMenu = () => {
+        setMenuOpen((prev) => !prev);
     };
 
+    // This useEffect hook handles the scroll logic
+    useEffect(() => {
+        const handleScroll = () => {
+            if (menuOpen) {
+                setMenuOpen(false);
+            }
+
+            const currentScrollY = window.scrollY;
+
+            // Always show the navbar when at the top of the page
+            if (currentScrollY <= 10) {
+                setIsVisible(true);
+            }
+
+            // Hide the navbar when scrolling down
+            else if (currentScrollY > lastScrollY.current) {
+                setIsVisible(false);
+            }
+
+            // Show the navbar when scrolling up
+            else {
+                setIsVisible(true);
+            }
+
+            // Update the last scroll position
+            lastScrollY.current = currentScrollY;
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [menuOpen]);
+
     return (
-        <motion.nav 
-            initial={{ y: -80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-            className="w-full px-6 py-4 bg-[#0F0F0F] text-[#F0F0F0] shadow-md flex justify-between items-center relative z-50"
+        <motion.nav
+            variants={{
+                visible: { y: 0 },
+                hidden: { y: "-100%" },
+            }}
+            
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="fixed top-0 left-0 w-full z-50 bg-[#0F0F0F]"
         >
+            <div className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto">
+                
+                {/* Logo */}
+                <div className="text-2xl font-bold text-[#00C896]">NutriAI</div>
 
-            {/* Logo */}
-            <div className="text-2xl font-bold text-[#00C896]">NutriAI</div>
+                {/* Menu */}
+                <div className="hidden md:flex space-x-6 text-[#F0F0F0] font-medium">
+                    <a href="#about" className="hover:text-[#00C896] transition">About</a>
+                    <a href="#docs" className="hover:text-[#00C896] transitio">Docs</a>
+                    <span
+                        onClick={handleLogout}
+                        className="cursor-pointer hover:text-[#00C896] transition"
+                    >
+                        Logout
+                    </span>
+                </div>
 
-            
-            
-            {/* menu */}
-            <div className="hidden md:flex space-x-6 text-[#F0F0F0] font-medium">
-                <a href="#about" className="hover:text-[#00C896] transition">About</a>
-                <a href="#docs" className="hover:text-[#00C896] transitio">Docs</a>
-                <span
-                    onClick={handleLogout}
-                    className="cursor-pointer hover:text-[#00C896] transition"
-                >
-                    Logout
-                </span>
-            </div>
-
-
-
-
-            {/* Hamburger Icon - Mobile */}
-            <div className="md:hidden text-2xl cursor-pointer" onClick={toggleMenu}>
-                {menuOpen ? <FiX /> : <FiMenu />}
+                {/* Hamburger Icon - Mobile */}
+                <div className="md:hidden text-2xl cursor-pointer" onClick={toggleMenu}>
+                    {menuOpen ? <FiX /> : <FiMenu />}
+                </div>
             </div>
 
             {/* Mobile Menu */}
             {menuOpen && (
-                <div className="absolute top-full right-4 mt-2 w-48 bg-[#121212] text-[#F0F0F0] rounded-lg shadow-lg py-4 px-6 flex flex-col space-y-3 md:hidden">
-                <a href="#about" onClick={toggleMenu} className="hover:text-[#00C896] transition">About</a>
-                <a href="#docs" onClick={toggleMenu} className="hover:text-[#00C896] transition">Docs</a>
-                <span
-                    onClick={() => {
-                        toggleMenu();
-                        handleLogout();
-                    }}
-                    className="cursor-pointer hover:text-[#00C896] transition"
+                <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full right-4 mt-2 w-48 bg-[#121212] text-[#F0F0F0] rounded-lg shadow-lg py-4 px-6 flex flex-col space-y-3 md:hidden"
                 >
-                    Logout
-                </span>
-                </div>
+                    <a href="#about" onClick={toggleMenu} className="hover:text-[#00C896] transition">About</a>
+                    <a href="#docs" onClick={toggleMenu} className="hover:text-[#00C896] transition">Docs</a>
+                    <span
+                        onClick={() => {
+                            toggleMenu();
+                            handleLogout();
+                        }}
+                        className="cursor-pointer hover:text-[#00C896] transition"
+                    >
+                        Logout
+                    </span>
+                </motion.div>
             )}
         </motion.nav>
-    )
+    );
 };
 
 export default Navbar;
