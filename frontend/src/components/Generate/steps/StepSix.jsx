@@ -14,36 +14,40 @@ const StepSix = ({ formData = {}, setFormData }) => {
         setFormData(prev => ({ ...prev, activityLevel: option }));
     };
 
-    const handleSubmit = async () => {
-        try {
-            setLoading(true);
-            setError("");
+   const handleSubmit = async () => {
+    try {
+        setError("");
+        setLoading(true); // <-- Optional UX improvement
+        const token = localStorage.getItem("token");
 
-            const token = localStorage.getItem("token");
+        localStorage.setItem("aiInProgress", "true");
+        localStorage.removeItem("finalReport");
+        localStorage.setItem("userResponses", JSON.stringify(formData));
 
-            const res = await axios.post(
-                "http://localhost:3000/meal/meal-log",
-                formData,
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
+        navigate("/summary");
 
-            const aiResponse = res.data.aiResponse || "No AI response found.";
+        const res = await axios.post(
+            "http://localhost:3000/meal/meal-log",
+            formData,
+            {
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        );
 
-            // Save AI and User data in localStorage
-            localStorage.setItem("finalReport", JSON.stringify(aiResponse));
-            localStorage.setItem("userResponses", JSON.stringify(formData));
+        const aiResponse = res.data.aiResponse || "No AI response found.";
+        localStorage.setItem("finalReport", JSON.stringify(aiResponse));
+        localStorage.removeItem("aiInProgress");
+    } catch (err) {
+        console.error("AI generation failed:", err.message);
+        localStorage.setItem("finalReport", JSON.stringify("Something went wrong."));
+    } finally {
+        localStorage.removeItem("aiInProgress");
+        setLoading(false);
+    }
+};
 
-            // Redirect to /summary
-            navigate("/summary");
-        } catch (err) {
-            console.error("Submit error:", err);
-            setError("Something went wrong. Please try again.");
-        } finally {
-            setLoading(false);
-        }
-    };
+
+
 
     return (
         <motion.div
