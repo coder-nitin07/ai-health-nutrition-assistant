@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const StepSix = ({ formData = {}, setFormData, handleNext }) => {
-    const options = ['Sedentary', 'Moderate', 'Active'];
-    const [finalReport, setFinalReport] = useState(null);
+const StepSix = ({ formData = {}, setFormData }) => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    const options = ['Sedentary', 'Moderate', 'Active'];
 
     const handleSelect = (option) => {
         setFormData(prev => ({ ...prev, activityLevel: option }));
@@ -17,14 +18,11 @@ const StepSix = ({ formData = {}, setFormData, handleNext }) => {
         try {
             setLoading(true);
             setError("");
-            setFinalReport(null);
 
             const token = localStorage.getItem("token");
 
-            console.log("Submitting form data:", formData);
-
             const res = await axios.post(
-                "http://localhost:3000/meal/meal-log", // ✅ your actual endpoint
+                "http://localhost:3000/meal/meal-log",
                 formData,
                 {
                     headers: { Authorization: `Bearer ${token}` },
@@ -32,9 +30,13 @@ const StepSix = ({ formData = {}, setFormData, handleNext }) => {
             );
 
             const aiResponse = res.data.aiResponse || "No AI response found.";
-            setFinalReport(aiResponse);
+
+            // Save AI and User data in localStorage
             localStorage.setItem("finalReport", JSON.stringify(aiResponse));
-            handleNext(); 
+            localStorage.setItem("userResponses", JSON.stringify(formData));
+
+            // Redirect to /summary
+            navigate("/summary");
         } catch (err) {
             console.error("Submit error:", err);
             setError("Something went wrong. Please try again.");
@@ -83,30 +85,6 @@ const StepSix = ({ formData = {}, setFormData, handleNext }) => {
             >
                 {loading ? "Submitting..." : "Submit"}
             </button>
-
-            { finalReport && (
-                <div className="mt-8 p-6 bg-[#222] border border-[#00E0A1] rounded-xl text-white">
-                    <h3 className="text-xl font-bold mb-4 text-[#00E0A1]">Your Health Summary</h3>
-                    <div className="whitespace-pre-line leading-relaxed">
-                        <ReactMarkdown
-    components={{
-        p: ({ children }) => <p className="text-white mb-2">{children}</p>,
-    }}
->
-    {finalReport.analysis}
-</ReactMarkdown>
-
-<ReactMarkdown
-    components={{
-        p: ({ children }) => <p className="text-[#00E0A1] mt-4">{children}</p>,
-    }}
->
-    {finalReport.suggestions}
-</ReactMarkdown>
-
-                    </div>
-                </div>
-            )}
 
             {error && <p className="text-red-500 mt-4">{error}</p>}
         </motion.div>
