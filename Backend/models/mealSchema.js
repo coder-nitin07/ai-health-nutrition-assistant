@@ -14,7 +14,7 @@ const mealSchema = mongoose.Schema({
                 required: true
             },
             items: {
-                type: String,
+                type: [String],
                 required: true
             },
         }

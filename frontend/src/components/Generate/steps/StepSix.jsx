@@ -14,34 +14,40 @@ const StepSix = ({ formData = {}, setFormData, handleNext }) => {
     };
 
     const handleSubmit = async () => {
-        try {
-            setLoading(true);
-            setError("");
-            setFinalReport(null);
+    try {
+        setLoading(true);
+        setError("");
+        setFinalReport(null);
 
-            const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-            console.log("Submitting form data:", formData);
+        console.log("Submitting form data:", formData);
 
-            const res = await axios.post(
-                "http://localhost:3000/meal/meal-log", // ✅ your actual endpoint
-                formData,
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
-
-            const aiResponse = res.data.aiResponse || "No AI response found.";
-            setFinalReport(aiResponse);
-            localStorage.setItem("finalReport", JSON.stringify(aiResponse));
-            handleNext(); 
-        } catch (err) {
-            console.error("Submit error:", err);
-            setError("Something went wrong. Please try again.");
-        } finally {
-            setLoading(false);
+        const res = await axios.post(
+            "http://localhost:3000/meal/meal-log",
+            formData,
+            {
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        );
+console.log("🧾 Meals Before Submit:", formData.meals);
+        // Check for valid response
+        if (res.data && res.data.aiResponse && res.data.aiResponse.analysis && res.data.aiResponse.suggestions) {
+            setFinalReport(res.data.aiResponse);
+            localStorage.setItem("finalReport", JSON.stringify(res.data.aiResponse));
+            localStorage.setItem("userResponses", JSON.stringify(formData));
+            handleNext(); // Navigate to summary
+        } else {
+            setError("No valid AI response found.");
         }
-    };
+    } catch (err) {
+        console.error("Submit error:", err);
+        setError("Something went wrong. Please try again.");
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     return (
         <motion.div

@@ -6,6 +6,8 @@ import Generate from '../pages/Generate';
 import Summary from '../pages/Summary';
 import NotFound from '../pages/NotFound';
 import Protectedoutes from '../components/ProtectedRoute';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const AppRoutes = () => {
   return (
@@ -23,13 +25,16 @@ const AppRoutes = () => {
 
         <Route path='/generate' element={
             <Protectedoutes>
+
                   <Generate /> 
             </Protectedoutes>
         } />
 
         <Route path='/summary' element={
             <Protectedoutes>
-                  <Summary /> 
+                <Navbar />
+                  <Summary />
+                <Footer /> 
             </Protectedoutes>
           } />
           
