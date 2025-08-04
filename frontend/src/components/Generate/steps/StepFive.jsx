@@ -1,12 +1,7 @@
 import { motion } from "framer-motion";
 
 const StepFive = ({ formData = {}, setFormData, handleNext }) => {
-    const options = [
-        'Less than 4 hours',
-        '4–6 hours',
-        '6–8 hours',
-        'More than 8 hours'
-    ];
+    const options = ['Less than 4 hours', '4 to 6 hours', '6 to 8 hours', 'More than 8 hours'];
 
     const handleSelect = (option) =>{
         setFormData(prev => ({ ...prev, sleepHours: option }));

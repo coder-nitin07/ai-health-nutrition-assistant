@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const StepTwo = ({ formData = {}, setFormData, handleNext }) => {
 //   const [selectedOption, setSelectedOption] = useState(formData.waterIntake || '');
-  const option = ['<1L', '1-2L', '2-3L', '3-4L', '4+L'];
+  const option = ['<1L', '1 to 2L', '2 to 3L', '3 to 4L', '4+L'];
 
 //   useEffect(() => {
 //     setSelectedOption(formData.waterIntake || '');

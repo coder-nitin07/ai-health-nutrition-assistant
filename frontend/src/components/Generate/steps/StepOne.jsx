@@ -62,6 +62,7 @@ const StepOne = ({ formData = {}, setFormData, handleNext }) => {
             <label className="group flex cursor-pointer items-center gap-3 rounded-md border border-gray-700 bg-[#121212] px-4 py-2 transition hover:border-[#00C896]">
               <input
                 type="checkbox"
+                maxLength={100}
                 checked={selectedTimes.includes(time)}
                 onChange={() => handleCheckboxChange(time)}
                 className="form-checkbox h-4 w-4 rounded border-gray-600 bg-[#1A1A1A] text-[#00C896] focus:ring-0"
@@ -72,21 +73,22 @@ const StepOne = ({ formData = {}, setFormData, handleNext }) => {
             <AnimatePresence>
               {selectedTimes.includes(time) && (
                 <motion.input
-                  key={time}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                  type="text"
-                  placeholder={`What did you eat in the ${time}?`}
-                  value={mealInputs[time] || ""}
-                  onChange={(e) => handleInputChange(time, e.target.value)}
-                  className={`mt-2 w-full rounded-lg border ${
-                    touched[time] && (mealInputs[time] || "").trim() === ""
-                      ? "border-red-500"
-                      : "border-gray-600"
-                  } bg-[#1A1A1A] px-4 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00C896] transition`}
-                />
+  key={time}
+  initial={{ opacity: 0, y: -10 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ opacity: 0, y: -10 }}
+  transition={{ duration: 0.3 }}
+  type="text"
+  maxLength={100}
+  placeholder={`What did you eat in the ${time}?`}
+  value={mealInputs[time] || ""}
+  onChange={(e) => handleInputChange(time, e.target.value)}
+  className={`mt-2 w-full rounded-lg border ${
+    touched[time] && (mealInputs[time] || "").trim() === ""
+      ? "border-red-500"
+      : "border-gray-600"
+  } bg-[#1A1A1A] px-4 py-2 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00C896] transition`}
+/>
               )}
             </AnimatePresence>
           </div>

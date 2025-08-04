@@ -21,7 +21,7 @@ const mealSchema = mongoose.Schema({
     ],
     waterIntake: {
         type: String,
-        enum: ['<1L', '1–2L', '2–3L', '3–4L', '4+L'],
+        enum: ['<1L', '1 to 2L', '2 to 3L', '3 to 4L', '4+L'],
         required: true
     },
     caffeine: {
@@ -36,7 +36,7 @@ const mealSchema = mongoose.Schema({
     },
     sleepHours: {
         type: String,
-        enum: [ 'Less than 4 hours', '4-6 hours', '6-8 hours', 'More than 8 hours' ],
+        enum: ['Less than 4 hours', '4 to 6 hours', '6 to 8 hours', 'More than 8 hours'],
         required: true
     },
     activityLevel: {
