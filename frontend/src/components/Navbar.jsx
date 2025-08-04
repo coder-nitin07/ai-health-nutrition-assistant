@@ -75,6 +75,15 @@ const Navbar = () => {
                             <a href="#docs" className="hover:text-[#00C896] transition">Docs</a>
                         </>
                     )}
+
+                    <a
+                        onClick={() => navigate('/logs')}
+                        className="cursor-pointer hover:text-[#00C896] transition"
+                        >
+                        Logs
+                    </a>
+
+
                     <span
                         onClick={handleLogout}
                         className="cursor-pointer hover:text-[#00C896] transition"
@@ -103,6 +112,18 @@ const Navbar = () => {
                             <a href="#docs" onClick={toggleMenu} className="hover:text-[#00C896] transition">Docs</a>
                         </>
                     )}
+
+                    <a
+                        onClick={() => {
+                            toggleMenu();
+                            navigate('/logs');
+                        }}
+                        className="cursor-pointer hover:text-[#00C896] transition"
+                        >
+                        Logs
+                    </a>
+
+
                     <span
                         onClick={() => {
                             toggleMenu();

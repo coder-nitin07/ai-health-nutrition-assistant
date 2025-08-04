@@ -8,6 +8,8 @@ import NotFound from '../pages/NotFound';
 import Protectedoutes from '../components/ProtectedRoute';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import Logs from '../pages/Logs';
+import LogDetails from '../pages/LogDetails';
 
 const AppRoutes = () => {
   return (
@@ -25,7 +27,6 @@ const AppRoutes = () => {
 
         <Route path='/generate' element={
             <Protectedoutes>
-
                   <Generate /> 
             </Protectedoutes>
         } />
@@ -37,6 +38,22 @@ const AppRoutes = () => {
                 <Footer /> 
             </Protectedoutes>
           } />
+
+          <Route path="/logs" element={
+            <Protectedoutes>
+              <Navbar />
+                <Logs />
+              <Footer />
+            </Protectedoutes>
+          } />
+
+          <Route path="/logs/:id" element={
+              <Protectedoutes>
+                <Navbar />
+                  <LogDetails />
+                <Footer />
+              </Protectedoutes>
+            } />
           
         <Route path='*' element={<NotFound /> } />
     </Routes>

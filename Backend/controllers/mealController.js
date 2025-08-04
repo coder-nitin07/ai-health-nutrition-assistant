@@ -266,4 +266,24 @@ const getStreak = async (req, res) => {
     }
 };
 
-module.exports = { mealLog, getAllLogs, editLog, deleteLog, getTodayLog, getStreak };
+// Get Log By Id
+const getLogById = async (req, res) => {
+  try {
+    const logId = req.params.id;
+    const userId = req.user.id; // assuming you use auth middleware
+
+    const log = await MealLog.findOne({ _id: logId, user: userId });
+    
+    if (!log) {
+      return res.status(404).json({ message: "Log not found" });
+    }
+
+    res.status(200).json({ log });
+  } catch (error) {
+    console.log("the error is : ", error);
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+
+module.exports = { mealLog, getAllLogs, editLog, deleteLog, getTodayLog, getStreak, getLogById };
