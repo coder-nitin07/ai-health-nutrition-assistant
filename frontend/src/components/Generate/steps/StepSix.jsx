@@ -24,7 +24,7 @@ const StepSix = ({ formData = {}, setFormData, handleNext }) => {
         console.log("Submitting form data:", formData);
 
         const res = await axios.post(
-            "http://localhost:3000/meal/meal-log",
+            `${import.meta.env.VITE_BACKEND_URL}/meal/meal-log`,
             formData,
             {
                 headers: { Authorization: `Bearer ${token}` },

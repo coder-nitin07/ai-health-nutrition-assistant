@@ -13,7 +13,7 @@ const HeroSection = () => {
         const checkTodayLog = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await axios.get('http://localhost:3000/meal/logs/today', {
+                const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/meal/logs/today`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

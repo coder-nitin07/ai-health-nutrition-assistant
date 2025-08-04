@@ -9,7 +9,7 @@ const StreakBanner = ({ onStart }) => {
         const fetchStreak = async ()=>{
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get("http://localhost:3000/meal/streak", {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/meal/streak`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

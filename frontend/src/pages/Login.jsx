@@ -23,8 +23,7 @@ const Login = () => {
     }
 
     try {
-      // Call the Backend route
-      const res = await axios.post('http://localhost:3000/auth/login', formData);
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/login`, formData);
 
       localStorage.setItem('token', res.data.token);
 

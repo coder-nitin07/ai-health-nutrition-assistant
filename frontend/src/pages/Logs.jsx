@@ -13,7 +13,7 @@ const Logs = () => {
   const fetchLogs = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:3000/meal/getAllLogs', {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/meal/getAllLogs`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
