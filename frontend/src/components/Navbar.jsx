@@ -13,7 +13,7 @@ const Navbar = () => {
     const isHomePage = location.pathname === "/home";
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.clear();
         navigate('/login');
     };
 

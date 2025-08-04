@@ -19,17 +19,17 @@ const mealLog = async (req, res)=>{
         const endOfToday= new Date();
         endOfToday.setHours(23, 59, 59, 999);
 
-        // const alreadyLogged = await MealLog.findOne({
-        //     user: req.user.id,
-        //     createdAt: {
-        //         $gte: startOfToday,
-        //         $lte: endOfToday
-        //     }
-        // });
+        const alreadyLogged = await MealLog.findOne({
+            user: req.user.id,
+            createdAt: {
+                $gte: startOfToday,
+                $lte: endOfToday
+            }
+        });
 
-        // if(alreadyLogged){
-        //     return res.status(403).json({ message: 'You have already logged today.' });
-        // }
+        if(alreadyLogged){
+            return res.status(403).json({ message: 'You have already logged today.' });
+        }
 
         const latestLogs = [
             {
@@ -182,7 +182,7 @@ const deleteLog = async (req, res)=>{
 };
 
 // Get Today Log
-const getTodayLog = async (req, res)=>{
+const getTodayLog = async (req, res) => {
     try {
         const userId = req.user.id;
 
@@ -200,11 +200,11 @@ const getTodayLog = async (req, res)=>{
             }
         });
 
-        if(!todayLog){
-            return res.status(404).json({ message: "No log found for today." });
+        if (!todayLog) {
+            return res.status(200).json({ hasLogged: false });
         }
 
-        res.status(200).json({ message: "Today's log fetched successfully.", log: todayLog });
+        res.status(200).json({ hasLogged: true, log: todayLog });
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: 'Something went wrong' });

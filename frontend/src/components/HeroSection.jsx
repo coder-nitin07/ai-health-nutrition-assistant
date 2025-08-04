@@ -1,17 +1,31 @@
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import heroAnimation from '../assets/lottie/Running on Treadmill.json';
-import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Lottie from "lottie-react";
+import { motion } from "framer-motion";
+import heroAnimation from '../assets/lottie/Running on Treadmill.json';
 
 const HeroSection = () => {
     const navigate = useNavigate();
     const [hasLoggedToday, setHasLoggedToday] = useState(false);
 
     useEffect(() => {
-        const today = new Date().toDateString();
-        const loggedDate = localStorage.getItem("mealLoggedDate");
-        setHasLoggedToday(loggedDate === today);
+        const checkTodayLog = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const res = await axios.get('http://localhost:3000/meal/logs/today', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                setHasLoggedToday(res.data.hasLogged);
+            } catch (err) {
+                console.error("Failed to check today's log:", err);
+            }
+        };
+
+        checkTodayLog();
     }, []);
 
     return (
@@ -19,8 +33,6 @@ const HeroSection = () => {
             id="hero"
             className="bg-[#0F0F0F] text-[#F0F0F0] min-h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-12"
         >
-
-            {/* Left section content */}
             <motion.div
                 initial={{ x: -100, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
@@ -60,7 +72,6 @@ const HeroSection = () => {
                 )}
             </motion.div>
 
-            {/* Right Animation */}
             <motion.div
                 initial={{ x: 100, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}

@@ -1,16 +1,31 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios"; 
 
 const CTASection = () => {
     const navigate = useNavigate();
     const [hasLoggedToday, setHasLoggedToday] = useState(false);
 
     useEffect(() => {
-        const today = new Date().toDateString();
-        const loggedDate = localStorage.getItem("mealLoggedDate");
-        setHasLoggedToday(loggedDate === today);
+        const checkTodayLog = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const res = await axios.get("http://localhost:3000/meal/logs/today", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setHasLoggedToday(res.data.hasLogged);
+            } catch (err) {
+                console.error("Failed to check today's log:", err);
+                setHasLoggedToday(false); // fallback
+            }
+        };
+
+        checkTodayLog();
     }, []);
+
 
     return (
         <section className="bg-gradient-to-r from-[#0F0F0F] to-[#111111] py-16 px-4 text-center text-white rounded-2xl">
