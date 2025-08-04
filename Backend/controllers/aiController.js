@@ -144,7 +144,7 @@ Now, based on TODAY’s complete log:
 3. Mention the *potential health effects* of these patterns (e.g., fatigue, digestive issues).
 4. Praise any healthy habits (e.g., consistent meals, sleep routine).
 5. Keep it encouraging and easy to read.
-6. ✨ Keep your entire response between **600 to 800 words max**. Never exceed 800 words.
+6. ✨ Keep your entire response between **500 to 700 words max**. Never exceed 800 words.
 `;
 
 
@@ -157,7 +157,7 @@ Suggest exactly 3 clear, actionable tips the user should try TOMORROW.
 - The tips should help them improve their nutrition, hydration, sleep, or physical activity
 - Be friendly, motivating, and specific (e.g., "Try swapping chocolate with fruit")
 - Don't repeat today's log details. Only give advice for tomorrow.
-- ✨ Keep the total length of this suggestion response under **250 words max**
+- ✨ Keep the total length of this suggestion response under **150 words max**
 `;
 
 
