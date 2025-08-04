@@ -84,6 +84,14 @@ const getAllLogs = async (req, res)=>{
             return res.status(404).json({ message: 'User not found.' });
         }
 
+        // Delete Older Logs
+        const allLogs = await MealLog.find({ user: userId }).sort({ createdAt: -1 });
+        if(allLogs.length > 3){
+            const logsToDelete = allLogs.slice(3);
+            const idsToDelete = logsToDelete.map(log => log._id);
+            await MealLog.deleteMany({ _id: { $in: idsToDelete } });
+        }
+
         const totalLogs = await MealLog.countDocuments({ user: userId });
 
         const getLogs = await MealLog.find({ user: userId })
