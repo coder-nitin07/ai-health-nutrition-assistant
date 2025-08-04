@@ -36,6 +36,10 @@ console.log("🧾 Meals Before Submit:", formData.meals);
             setFinalReport(res.data.aiResponse);
             localStorage.setItem("finalReport", JSON.stringify(res.data.aiResponse));
             localStorage.setItem("userResponses", JSON.stringify(formData));
+            
+            const today = new Date().toDateString();
+            localStorage.setItem("mealLoggedDate", today);
+
             handleNext(); // Navigate to summary
         } else {
             setError("No valid AI response found.");

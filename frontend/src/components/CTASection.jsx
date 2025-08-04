@@ -1,8 +1,16 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-const CTASection = ()=>{
+const CTASection = () => {
     const navigate = useNavigate();
+    const [hasLoggedToday, setHasLoggedToday] = useState(false);
+
+    useEffect(() => {
+        const today = new Date().toDateString();
+        const loggedDate = localStorage.getItem("mealLoggedDate");
+        setHasLoggedToday(loggedDate === today);
+    }, []);
 
     return (
         <section className="bg-gradient-to-r from-[#0F0F0F] to-[#111111] py-16 px-4 text-center text-white rounded-2xl">
@@ -24,20 +32,26 @@ const CTASection = ()=>{
                     viewport={{ once: true }}
                     className="text-lg mb-8 text-[#cccccc]"
                 >
-                     Log your meals, track your progress, and let AI guide you toward a healthier lifestyle.
+                    Log your meals, track your progress, and let AI guide you toward a healthier lifestyle.
                 </motion.p>
 
-                <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate("/generate")}
-                    className="bg-[#00E0A1] hover:bg-[#00C896] text-black font-semibold px-6 py-3 rounded-full shadow-lg"
-                >
-                    Log a Meal
-                </motion.button>
+                {hasLoggedToday ? (
+                    <p className="text-[#00E0A1] font-semibold text-lg">
+                        Great, you logged today! Come back tomorrow.
+                    </p>
+                ) : (
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => navigate("/generate")}
+                        className="bg-[#00E0A1] hover:bg-[#00C896] text-black font-semibold px-6 py-3 rounded-full shadow-lg"
+                    >
+                        Log a Meal
+                    </motion.button>
+                )}
             </div>
         </section>
-    )
+    );
 };
 
 export default CTASection;

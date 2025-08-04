@@ -2,9 +2,17 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import heroAnimation from '../assets/lottie/Running on Treadmill.json';
 import Lottie from "lottie-react";
+import { useEffect, useState } from "react";
 
-const HeroSection = ()=>{
+const HeroSection = () => {
     const navigate = useNavigate();
+    const [hasLoggedToday, setHasLoggedToday] = useState(false);
+
+    useEffect(() => {
+        const today = new Date().toDateString();
+        const loggedDate = localStorage.getItem("mealLoggedDate");
+        setHasLoggedToday(loggedDate === today);
+    }, []);
 
     return (
         <section
@@ -29,21 +37,27 @@ const HeroSection = ()=>{
                     health goals.
                 </p>
 
-                <motion.button
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    whileHover={{ scale: 1.12, y: -4 }}
-                    transition={{
-                        type: "spring",
-                        stiffness: 150,
-                        damping: 18,
-                        delay: 0.4
-                    }}
-                    onClick={()=> navigate('/generate') }
-                    className="bg-[#00E0A1] hover:bg-[#00C896] text-black font-semibold px-6 py-3 rounded-full"
-                >
-                    Get Started
-                </motion.button>
+                {hasLoggedToday ? (
+                    <p className="text-[#00E0A1] font-semibold text-lg">
+                        Great, you logged today! Come back tomorrow.
+                    </p>
+                ) : (
+                    <motion.button
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ scale: 1.12, y: -4 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 150,
+                            damping: 18,
+                            delay: 0.4
+                        }}
+                        onClick={() => navigate('/generate')}
+                        className="bg-[#00E0A1] hover:bg-[#00C896] text-black font-semibold px-6 py-3 rounded-full"
+                    >
+                        Get Started
+                    </motion.button>
+                )}
             </motion.div>
 
             {/* Right Animation */}
@@ -57,7 +71,7 @@ const HeroSection = ()=>{
                 <Lottie animationData={heroAnimation} loop={true} />
             </motion.div>
         </section>
-    )
+    );
 };
 
 export default HeroSection;
