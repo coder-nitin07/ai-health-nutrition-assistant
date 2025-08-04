@@ -55,7 +55,13 @@ const AppRoutes = () => {
               </Protectedoutes>
             } />
           
-        <Route path='*' element={<NotFound /> } />
+        <Route path='*' element={
+          <Protectedoutes>
+                <Navbar />
+                  <NotFound />
+                <Footer />
+          </Protectedoutes>
+        } />
     </Routes>
   )
 }

@@ -136,29 +136,27 @@ const generateFullHealthReport = async (logs) => {
 
         const formattedPrompt = formatPromptFromLogs(logs);
         const analysisPrompt = `${formattedPrompt}
+            Now, based on TODAY’s complete log:
 
-Now, based on TODAY’s complete log:
-
-1. Provide a detailed wellness summary — focus on overall balance.
-2. Highlight any unhealthy patterns (e.g., high sugar, excess protein, low hydration, lack of sleep).
-3. Mention the *potential health effects* of these patterns (e.g., fatigue, digestive issues).
-4. Praise any healthy habits (e.g., consistent meals, sleep routine).
-5. Keep it encouraging and easy to read.
-6. ✨ Keep your entire response between **500 to 700 words max**. Never exceed 800 words.
-`;
+            1. Provide a detailed wellness summary — focus on overall balance.
+            2. Highlight any unhealthy patterns (e.g., high sugar, excess protein, low hydration, lack of sleep).
+            3. Mention the *potential health effects* of these patterns (e.g., fatigue, digestive issues).
+            4. Praise any healthy habits (e.g., consistent meals, sleep routine).
+            5. Keep it encouraging and easy to read.
+            6. ✨ Keep your entire response between **400 to 600 words max**. Never exceed 650 words.
+        `;
 
 
         const suggestionPrompt = `${formattedPrompt}
+            Based only on TODAY’s log:
 
-Based only on TODAY’s log:
+            Suggest exactly 3 clear, actionable tips the user should try TOMORROW.
 
-Suggest exactly 3 clear, actionable tips the user should try TOMORROW.
-
-- The tips should help them improve their nutrition, hydration, sleep, or physical activity
-- Be friendly, motivating, and specific (e.g., "Try swapping chocolate with fruit")
-- Don't repeat today's log details. Only give advice for tomorrow.
-- ✨ Keep the total length of this suggestion response under **150 words max**
-`;
+            - The tips should help them improve their nutrition, hydration, sleep, or physical activity
+            - Be friendly, motivating, and specific (e.g., "Try swapping chocolate with fruit")
+            - Don't repeat today's log details. Only give advice for tomorrow.
+            - ✨ Keep the total length of this suggestion response under **150 words max**
+        `;
 
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
