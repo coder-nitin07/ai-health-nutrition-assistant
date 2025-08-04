@@ -31,7 +31,7 @@ const HeroSection = () => {
     return (
         <section
             id="hero"
-            className="bg-[#0F0F0F] text-[#F0F0F0] min-h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-12"
+            className="bg-[#0F0F0F] text-[#F0F0F0] min-h-screen flex flex-col md:flex-row items-center mt-12 justify-between px-6 md:px-16 py-12"
         >
             <motion.div
                 initial={{ x: -100, opacity: 0 }}
