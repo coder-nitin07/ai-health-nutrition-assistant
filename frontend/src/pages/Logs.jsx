@@ -31,7 +31,7 @@ const Logs = () => {
   }, []);
 
   return (
-    <div className="min-h-screen p-4 bg-[#0F0F0F] text-[#F0F0F0]">
+    <div className="min-h-screen p-4 bg-[#0F0F0F] text-[#F0F0F0] mt-[60px]">
       <h2 className="text-2xl font-bold mb-6">Your Log History</h2>
 
       {loading ? (
@@ -41,20 +41,19 @@ const Logs = () => {
       ) : (
         <div className="space-y-4">
           {logs.map((log, index) => (
-            <Link to={`/logs/${log._id}`}>
-                <motion.div
-                key={log._id}
-                className="flex justify-between items-center bg-[#1a1a1a] px-4 py-3 rounded-xl cursor-pointer hover:bg-[#1f1f1f] border border-[#222]"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                onClick={() => navigate(`/logs/${log._id}`)}
-                >
-                <span>{new Date(log.createdAt).toLocaleDateString()}</span>
-                <ArrowRight className="w-5 h-5 text-mint-500" />
-                </motion.div>
-            </Link>
-          ))}
+  <Link key={log._id} to={`/logs/${log._id}`}>
+    <motion.div
+      className="flex justify-between my-6 items-center bg-[#1a1a1a] px-4 py-3 rounded-xl cursor-pointer hover:bg-[#1f1f1f] border border-[#222]"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+    >
+      <span>{new Date(log.createdAt).toLocaleDateString()}</span>
+      <ArrowRight className="w-5 h-5 text-mint-500" />
+    </motion.div>
+  </Link>
+))}
+
         </div>
       )}
 
