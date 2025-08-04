@@ -44,11 +44,14 @@ const HeroSection = () => {
                     Your AI Health & Nutrition Companion
                 </h1>
 
-                <p className="text-[#B0B0B0] text-lg">
-                    Ask any question. Get personalized, accurate answers tailored to your 
-                    health goals.
-                </p>
-
+               {!hasLoggedToday && (
+  <p className="text-[#B0B0B0] text-lg">
+    Ask any question. Get personalized, accurate answers tailored to your health goals.<br />
+    <span className="text-[#00C896] font-medium">
+      You can only use the app once a day, so choose wisely.
+    </span>
+  </p>
+)}
                 {hasLoggedToday ? (
                     <p className="text-[#00E0A1] font-semibold text-lg">
                         Great, you logged today! Come back tomorrow.
