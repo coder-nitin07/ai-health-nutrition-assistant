@@ -23,11 +23,10 @@ function formatPromptFromLogs(logs) {
     });
 
     prompt += `
-        Now, based on the above data, do the following:
-        - Give a detailed nutrition and wellness summary for TODAY
-        - Mention if the user drank less water or consumed too much caffeine, etc.
-        - Recommend 3 improvements the user should try TOMORROW (e.g., eat more fiber, reduce caffeine)
+        Now, based on the above data, give a detailed nutrition and wellness summary for TODAY only.
+        - Mention water, caffeine, alcohol, sleep, and activity insights
         - Keep the tone friendly and motivating
+        - Do NOT include any suggestions or advice for tomorrow
     `;
 
     return prompt;

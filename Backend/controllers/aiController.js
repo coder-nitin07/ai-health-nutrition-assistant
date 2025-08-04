@@ -135,11 +135,24 @@ const generateFullHealthReport = async (logs) => {
         }
 
         const formattedPrompt = formatPromptFromLogs(logs);
-        const analysisPrompt = formattedPrompt;
-        const suggestionPrompt = `${formattedPrompt}
+       const analysisPrompt = `${formattedPrompt}
 
-Now, only extract 3 simple, actionable suggestions for the user to improve their health tomorrow. Be friendly and clear. Don’t repeat the log — just show suggestions.
+Now, based on TODAY’s data only:
+- Write a detailed nutrition and wellness summary
+- Keep it friendly and motivating
+- DO NOT include suggestions or advice for tomorrow
 `;
+
+const suggestionPrompt = `
+Based only on TODAY’s data:
+
+Suggest exactly 3 simple and actionable improvements the user can try TOMORROW.
+- Keep it short, bullet-style
+- Avoid repeating the log info or today’s summary
+- Be specific and friendly
+`;
+
+
 
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });

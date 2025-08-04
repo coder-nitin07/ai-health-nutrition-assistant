@@ -48,7 +48,7 @@ const HeroSection = () => {
   <p className="text-[#B0B0B0] text-lg">
     Ask any question. Get personalized, accurate answers tailored to your health goals.<br />
     <span className="text-[#00C896] font-medium">
-      You can only use the app once a day, so choose wisely.
+      You can only use the app once a day, so use wisely.
     </span>
   </p>
 )}
