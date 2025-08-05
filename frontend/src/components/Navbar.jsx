@@ -83,6 +83,13 @@ const Navbar = () => {
                         Logs
                     </a>
 
+                    <a
+                        onClick={() => navigate('/plans')}
+                        className="cursor-pointer hover:text-[#00C896] transition"
+                        >
+                        Plans
+                    </a>
+
 
                     <span
                         onClick={handleLogout}
@@ -123,6 +130,15 @@ const Navbar = () => {
                         Logs
                     </a>
 
+                    <a
+                        onClick={() => {
+                            toggleMenu();
+                            navigate('/plans')}
+                        }
+                        className="cursor-pointer hover:text-[#00C896] transition"
+                        >
+                        Plans
+                    </a>
 
                     <span
                         onClick={() => {

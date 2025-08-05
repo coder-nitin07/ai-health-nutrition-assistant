@@ -4,10 +4,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Lottie from 'lottie-react';
 import fitnessAnimation from '../assets/Stress Management.json';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const Login = () => {
   const [ formData, setFormData ] = useState({ email: '', password: '' });
   const [ error, setError ] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e)=>{
@@ -90,21 +92,24 @@ const Login = () => {
                 />
               </div>
 
-              <div>
-                <label className='block text-sm mb-2'>Password</label>
-                <input 
-                    type="password" 
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    className="w-full bg-[#121212] border border-[#2C2C2C] p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C896]"
-                />
+            <div className="relative">
+              <label className="block text-sm mb-2">Password</label>
+              <input 
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full bg-[#121212] border border-[#2C2C2C] p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00C896] pr-10"
+              />
+              <span 
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-[38px] cursor-pointer text-[#B0B0B0]"
+              >
+                {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+              </span>
+            </div>
 
-                { error && (
-                  <p className='text-[#FF4C4C] text-sm text-center'>{ error }</p>
-                )}
-              </div>
 
               <motion.button 
                   type='submit'

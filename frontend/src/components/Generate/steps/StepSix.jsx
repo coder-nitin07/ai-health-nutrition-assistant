@@ -14,43 +14,43 @@ const StepSix = ({ formData = {}, setFormData, handleNext }) => {
     };
 
     const handleSubmit = async () => {
-    try {
-        setLoading(true);
-        setError("");
-        setFinalReport(null);
+        try {
+            setLoading(true);
+            setError("");
+            setFinalReport(null);
 
-        const token = localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
-        console.log("Submitting form data:", formData);
+            console.log("Submitting form data:", formData);
 
-        const res = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/meal/meal-log`,
-            formData,
-            {
-                headers: { Authorization: `Bearer ${token}` },
-            }
-        );
-console.log("🧾 Meals Before Submit:", formData.meals);
-        // Check for valid response
-        if (res.data && res.data.aiResponse && res.data.aiResponse.analysis && res.data.aiResponse.suggestions) {
-            setFinalReport(res.data.aiResponse);
-            localStorage.setItem("finalReport", JSON.stringify(res.data.aiResponse));
-            localStorage.setItem("userResponses", JSON.stringify(formData));
+            const res = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/meal/meal-log`,
+                formData,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
             
-            const today = new Date().toDateString();
-            localStorage.setItem("mealLoggedDate", today);
+            // Check for valid response
+            if (res.data && res.data.aiResponse && res.data.aiResponse.analysis && res.data.aiResponse.suggestions) {
+                setFinalReport(res.data.aiResponse);
+                localStorage.setItem("finalReport", JSON.stringify(res.data.aiResponse));
+                localStorage.setItem("userResponses", JSON.stringify(formData));
 
-            handleNext(); // Navigate to summary
-        } else {
-            setError("No valid AI response found.");
+                const today = new Date().toDateString();
+                localStorage.setItem("mealLoggedDate", today);
+
+                handleNext(); // Navigate to summary
+            } else {
+                setError("No valid AI response found.");
+            }
+        } catch (err) {
+            console.error("Submit error:", err);
+            setError("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
         }
-    } catch (err) {
-        console.error("Submit error:", err);
-        setError("Something went wrong. Please try again.");
-    } finally {
-        setLoading(false);
-    }
-};
+    };
 
 
     return (
@@ -71,11 +71,10 @@ console.log("🧾 Meals Before Submit:", formData.meals);
                     <button
                         key={option}
                         onClick={() => handleSelect(option)}
-                        className={`px-4 py-2 rounded-xl border text-white transition-all ${
-                            formData.activityLevel === option
+                        className={`px-4 py-2 rounded-xl border text-white transition-all ${formData.activityLevel === option
                                 ? "bg-[#00E0A1] border-[#00E0A1] text-black"
                                 : "bg-[#111] border-gray-600 hover:border-[#00E0A1]"
-                        }`}
+                            }`}
                     >
                         {option}
                     </button>
@@ -85,34 +84,33 @@ console.log("🧾 Meals Before Submit:", formData.meals);
             <button
                 onClick={handleSubmit}
                 disabled={!formData.activityLevel || loading}
-                className={`w-full py-3 rounded-xl font-semibold transition-colors ${
-                    formData.activityLevel
+                className={`w-full py-3 rounded-xl font-semibold transition-colors ${formData.activityLevel
                         ? "bg-[#00E0A1] hover:bg-[#00C896] text-black"
                         : "bg-gray-700 text-gray-400 cursor-not-allowed"
-                }`}
+                    }`}
             >
                 {loading ? "Submitting..." : "Submit"}
             </button>
 
-            { finalReport && (
+            {finalReport && (
                 <div className="mt-8 p-6 bg-[#222] border border-[#00E0A1] rounded-xl text-white">
                     <h3 className="text-xl font-bold mb-4 text-[#00E0A1]">Your Health Summary</h3>
                     <div className="whitespace-pre-line leading-relaxed">
                         <ReactMarkdown
-    components={{
-        p: ({ children }) => <p className="text-white mb-2">{children}</p>,
-    }}
->
-    {finalReport.analysis}
-</ReactMarkdown>
+                            components={{
+                                p: ({ children }) => <p className="text-white mb-2">{children}</p>,
+                            }}
+                        >
+                            {finalReport.analysis}
+                        </ReactMarkdown>
 
-<ReactMarkdown
-    components={{
-        p: ({ children }) => <p className="text-[#00E0A1] mt-4">{children}</p>,
-    }}
->
-    {finalReport.suggestions}
-</ReactMarkdown>
+                        <ReactMarkdown
+                            components={{
+                                p: ({ children }) => <p className="text-[#00E0A1] mt-4">{children}</p>,
+                            }}
+                        >
+                            {finalReport.suggestions}
+                        </ReactMarkdown>
 
                     </div>
                 </div>

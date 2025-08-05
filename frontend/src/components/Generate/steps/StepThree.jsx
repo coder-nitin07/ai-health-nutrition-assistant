@@ -55,4 +55,4 @@ const StepThree = ({ formData = {}, setFormData, handleNext }) => {
     )
 }
 
-export default StepThree
+export default StepThree;

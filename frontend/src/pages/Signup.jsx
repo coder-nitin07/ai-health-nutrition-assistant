@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import Lottie from 'lottie-react';
 import Yoga from '../assets/Yoga.json';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const Signup = () => {
   const [ formData, setFormData ] = useState({
@@ -14,6 +15,8 @@ const Signup = () => {
   });
 
   const [ error, setError ] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e)=>{
@@ -124,29 +127,43 @@ const Signup = () => {
 
 
               {/* Password */}
-              <div>
-                <label className='block mb-1'>Password</label>
+            <div className="relative">
+                <label className="block mb-1">Password</label>
                 <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className='w-full px-4 py-2 rounded-xl bg-[#2C2C2C] text-white outline-none focus:ring-2 focus:ring-[#38ef7d] transition-all duration-200'
-                    required
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-xl bg-[#2C2C2C] text-white outline-none focus:ring-2 focus:ring-[#38ef7d] pr-10"
+                  required
                 />
+                <span 
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-[38px] cursor-pointer text-[#B0B0B0]"
+                >
+                  {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                </span>
               </div>
 
+
+
               {/* Confirm Password */}
-              <div>
-                <label className='block mb-1'>Confirm Password</label>
+             <div className="relative">
+                <label className="block mb-1">Confirm Password</label>
                 <input
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className='w-full px-4 py-2 rounded-xl bg-[#2C2C2C] text-white outline-none focus:ring-2 focus:ring-[#38ef7d] transition-all duration-200'
-                    required
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-xl bg-[#2C2C2C] text-white outline-none focus:ring-2 focus:ring-[#38ef7d] pr-10"
+                  required
                 />
+                <span 
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-[38px] cursor-pointer text-[#B0B0B0]"
+                >
+                  {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                </span>
               </div>
 
               {/* Error Message */}

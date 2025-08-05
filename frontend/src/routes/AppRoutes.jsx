@@ -10,6 +10,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Logs from '../pages/Logs';
 import LogDetails from '../pages/LogDetails';
+import Pricing from '../pages/Pricing';
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,14 @@ const AppRoutes = () => {
         <Route path='/generate' element={
             <Protectedoutes>
                   <Generate /> 
+            </Protectedoutes>
+        } />
+
+        <Route path='/plans' element={
+            <Protectedoutes>
+                <Navbar />
+                  <Pricing />
+                <Footer />
             </Protectedoutes>
         } />
 

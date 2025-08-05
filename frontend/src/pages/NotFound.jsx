@@ -1,4 +1,3 @@
-// NotFound.jsx
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,6 +5,7 @@ const NotFound = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    
     // Redirect to /home after 2.5 seconds
     const timer = setTimeout(() => {
       navigate('/home');
