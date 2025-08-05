@@ -110,6 +110,12 @@ const Login = () => {
               </span>
             </div>
 
+              {error && (
+                <div className="text-[#FF6B6B] bg-[#2C2C2C] text-sm p-2 rounded-md border border-[#FF4C4C]">
+                  {error}
+                </div>
+              )}
+
 
               <motion.button 
                   type='submit'
